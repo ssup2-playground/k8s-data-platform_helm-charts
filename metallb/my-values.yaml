@@ -228,7 +228,7 @@ controller:
       # cpu: 100m
       # memory: 100Mi
   nodeSelector:
-    node-role.kubernetes.io/master: ""
+    node-group.dp.ssup2: master
   tolerations: []
   priorityClassName: ""
   runtimeClassName: ""
