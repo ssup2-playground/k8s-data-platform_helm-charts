@@ -316,7 +316,7 @@ loki:
   # -- Check https://grafana.com/docs/loki/latest/configuration/#common_config for more info on how to provide a common configuration
   commonConfig:
     path_prefix: /var/loki
-    replication_factor: 3
+    replication_factor: 1
     compactor_address: '{{ include "loki.compactorAddress" . }}'
   # -- Storage config. Providing this will automatically populate all necessary storage configs in the templated config.
   storage:
@@ -638,7 +638,7 @@ kubectlImage:
 
 # -- Section for configuring optional Helm test
 test:
-  enabled: true
+  enabled: false
   # -- Used to directly query the metrics endpoint of the canary for testing, this approach avoids needing prometheus for testing.
   # This in a newer approach to using prometheusAddress such that tests do not have a dependency on prometheus
   canaryServiceAddress: "http://loki-canary:3500/metrics"
@@ -666,7 +666,7 @@ test:
 # The Loki canary pushes logs to and queries from this loki installation to test
 # that it's working correctly
 lokiCanary:
-  enabled: true
+  enabled: false
   # -- If true, the canary will send directly to Loki via the address configured for verification --
   # -- If false, it will write to stdout and an Agent will be needed to scrape and send the logs --
   push: true
@@ -902,7 +902,7 @@ adminApi:
 # Configuration for the gateway
 gateway:
   # -- Specifies whether the gateway should be enabled
-  enabled: true
+  enabled: false
   # -- Number of replicas for the gateway
   replicas: 1
   # -- Default container port
@@ -1368,7 +1368,7 @@ singleBinary:
 # Configuration for the write pod(s)
 write:
   # -- Number of replicas for the write
-  replicas: 3
+  replicas: 0
   autoscaling:
     # -- Enable autoscaling for the write.
     enabled: false
@@ -1489,7 +1489,7 @@ write:
 # --  Configuration for the read pod(s)
 read:
   # -- Number of replicas for the read
-  replicas: 3
+  replicas: 0
   autoscaling:
     # -- Enable autoscaling for the read, this is only used if `queryIndex.enabled: true`
     enabled: false
@@ -1598,7 +1598,7 @@ read:
 # --  Configuration for the backend pod(s)
 backend:
   # -- Number of replicas for the backend
-  replicas: 3
+  replicas: 0
   autoscaling:
     # -- Enable autoscaling for the backend.
     enabled: false
@@ -3069,7 +3069,7 @@ memcachedExporter:
   extraArgs: {}
 resultsCache:
   # -- Specifies whether memcached based results-cache should be enabled
-  enabled: true
+  enabled: false
   # -- Specify how long cached results should be stored in the results-cache before being expired
   defaultValidity: 12h
   # -- Memcached operation timeout
@@ -3167,7 +3167,7 @@ resultsCache:
     mountPath: /data
 chunksCache:
   # -- Specifies whether memcached based chunks-cache should be enabled
-  enabled: true
+  enabled: false
   # -- Batchsize for sending and receiving chunks from chunks cache
   batchSize: 4
   # -- Parallel threads for sending and receiving chunks from chunks cache
