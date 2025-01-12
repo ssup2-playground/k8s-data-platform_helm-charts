@@ -29,7 +29,7 @@ mcImage:
   pullPolicy: IfNotPresent
 
 ## minio mode, i.e. standalone or distributed
-mode: distributed ## other supported values are "standalone"
+mode: standalone ## other supported values are "standalone"
 
 ## Additional labels to include with deployment or statefulset
 additionalLabels: {}
@@ -90,8 +90,8 @@ runtimeClassName: ""
 ## rootUser and rootPassword is generated when not set
 ## Distributed MinIO ref: https://min.io/docs/minio/linux/operations/install-deploy-manage/deploy-minio-multi-node-multi-drive.html
 ##
-rootUser: ""
-rootPassword: ""
+rootUser: "root"
+rootPassword: "root123!"
 
 ## Use existing Secret that store following variables:
 ##
@@ -120,7 +120,7 @@ bucketRoot: ""
 # Number of drives attached to a node
 drivesPerNode: 1
 # Number of MinIO containers running
-replicas: 16
+replicas: 1
 # Number of expanded MinIO clusters
 pools: 1
 
@@ -162,7 +162,7 @@ persistence:
   storageClass: ""
   volumeName: ""
   accessMode: ReadWriteOnce
-  size: 500Gi
+  size: 100Gi
 
   ## If subPath is set mount a sub folder of a volume instead of the root of the volume.
   ## This is especially handy for volume plugins that don't natively support sub mounting (like glusterfs).
@@ -219,7 +219,7 @@ ingress:
   #      - chart-example.local
 
 consoleService:
-  type: ClusterIP
+  type: LoadBalancer
   clusterIP: ~
   port: "9001"
   nodePort: 32001
@@ -262,7 +262,8 @@ consoleIngress:
 ## Node labels for pod assignment
 ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
 ##
-nodeSelector: {}
+nodeSelector:
+  node-group.dp.ssup2: "storage"
 tolerations: []
 affinity: {}
 topologySpreadConstraints: []
@@ -290,7 +291,7 @@ podLabels: {}
 ##
 resources:
   requests:
-    memory: 16Gi
+    memory: 512Mi
 
 ## List of policies to be created after minio install
 ##
@@ -500,7 +501,8 @@ postJob:
     runAsUser: 1000
     runAsGroup: 1000
     fsGroup: 1000
-  nodeSelector: {}
+  nodeSelector:
+    node-group.dp.ssup2: "storage"
   tolerations: []
   affinity: {}
 

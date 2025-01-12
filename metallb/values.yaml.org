@@ -227,8 +227,7 @@ controller:
     # limits:
       # cpu: 100m
       # memory: 100Mi
-  nodeSelector:
-    node-group.dp.ssup2: master
+  nodeSelector: {}
   tolerations: []
   priorityClassName: ""
   runtimeClassName: ""

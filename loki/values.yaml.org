@@ -33,7 +33,7 @@ imagePullSecrets: []
 # - SingleBinary<->SimpleScalable: Migrate from SingleBinary to SimpleScalable (or vice versa)
 # - SimpleScalable<->Distributed: Migrate from SimpleScalable to Distributed (or vice versa)
 # Note: SimpleScalable and Distributed REQUIRE the use of object storage.
-deploymentMode: SingleBinary
+deploymentMode: SimpleScalable
 ######################################################################################################################
 #
 # Base Loki Configs including kubernetes configurations and configurations for Loki itself,
@@ -74,12 +74,18 @@ loki:
   # -- The number of old ReplicaSets to retain to allow rollback
   revisionHistoryLimit: 10
   # -- The SecurityContext for Loki pods
-  podSecurityContext: {}
+  podSecurityContext:
+    fsGroup: 10001
+    runAsGroup: 10001
+    runAsNonRoot: true
+    runAsUser: 10001
   # -- The SecurityContext for Loki containers
   containerSecurityContext:
-    runAsUser: 0
-    runAsGroup: 0
-    runAsNonRoot: false
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop:
+        - ALL
+    allowPrivilegeEscalation: false
   # -- Should enableServiceLinks be enabled. Default to enable
   enableServiceLinks: true
   ######################################################################################################################
@@ -326,7 +332,7 @@ loki:
     #   chunks: FIXME
     #   ruler: FIXME
     #   admin: FIXME
-    type: filesystem
+    type: s3
     s3:
       s3: null
       endpoint: null
@@ -394,15 +400,7 @@ loki:
       timeout: "500ms"
       default_validity: "12h"
   # -- Check https://grafana.com/docs/loki/latest/configuration/#schema_config for more info on how to configure schemas
-  schemaConfig:
-    configs:
-    - from: "2024-04-01"
-      store: "tsdb"
-      object_store: "filesystem"
-      schema: "v13"
-      index:
-        prefix: "loki_index_"
-        period: "24h"
+  schemaConfig: {}
   # -- a real Loki install requires a proper schemaConfig defined above this, however for testing or playing around
   # you can enable useTestSchema
   useTestSchema: false
@@ -1270,7 +1268,7 @@ migrate:
 # Configuration for the single binary node(s)
 singleBinary:
   # -- Number of replicas for the single binary
-  replicas: 1
+  replicas: 0
   autoscaling:
     # -- Enable autoscaling
     enabled: false
@@ -1336,15 +1334,14 @@ singleBinary:
   # -- DNS config for single binary pods
   dnsConfig: {}
   # -- Node selector for single binary pods
-  nodeSelector:
-    node-group.dp.ssup2: "master"
+  nodeSelector: {}
   # -- Tolerations for single binary pods
   tolerations: []
   persistence:
     # -- Enable StatefulSetAutoDeletePVC feature
     enableStatefulSetAutoDeletePVC: true
     # -- Enable persistent disk
-    enabled: false
+    enabled: true
     # -- Size of persistent disk
     size: 10Gi
     # -- Storage class to be used.

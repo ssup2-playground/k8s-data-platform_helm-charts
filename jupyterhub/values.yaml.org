@@ -47,8 +47,7 @@ hub:
   baseUrl: /
   cookieSecret:
   initContainers: []
-  nodeSelector:
-    node-group.dp.ssup2: "storage"
+  nodeSelector: {}
   tolerations: []
   concurrentSpawnLimit: 64
   consecutiveFailureLimit: 5
@@ -443,7 +442,7 @@ scheduling:
   userScheduler:
     enabled: true
     revisionHistoryLimit:
-    replicas: 1
+    replicas: 2
     logLevel: 4
     # plugins are configured on the user-scheduler to make us score how we
     # schedule user pods in a way to help us schedule on the most busy node. By
@@ -555,13 +554,12 @@ scheduling:
       tag: "v1.30.6" # ref: https://github.com/kubernetes/kubernetes/tree/master/CHANGELOG
       pullPolicy:
       pullSecrets: []
-    nodeSelector:
-      node-group.dp.ssup2: "storage"
+    nodeSelector: {}
     tolerations: []
     labels: {}
     annotations: {}
     pdb:
-      enabled: false
+      enabled: true
       maxUnavailable: 1
       minAvailable:
     resources: {}
@@ -663,8 +661,7 @@ prePuller:
       seccompProfile:
         type: "RuntimeDefault"
     podSchedulingWaitDuration: 10
-    nodeSelector:
-      node-group.dp.ssup2: "storage"  
+    nodeSelector: {}
     tolerations: []
     resources: {}
     serviceAccount:
@@ -672,7 +669,7 @@ prePuller:
       name:
       annotations: {}
   continuous:
-    enabled: false
+    enabled: true
   pullProfileListImages: true
   extraImages: {}
   pause:
