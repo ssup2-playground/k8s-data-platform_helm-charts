@@ -237,7 +237,8 @@ proxy:
     defaultTarget:
     errorTarget:
     extraEnv: {}
-    nodeSelector: {}
+    nodeSelector:
+      node-group.dp.ssup2: "storage" 
     tolerations: []
     networkPolicy:
       enabled: true
@@ -354,7 +355,8 @@ proxy:
 singleuser:
   podNameTemplate:
   extraTolerations: []
-  nodeSelector: {}
+  nodeSelector:
+    node-group.dp.ssup2: "storage"
   extraNodeAffinity:
     required: []
     preferred: []
@@ -556,7 +558,7 @@ scheduling:
       pullPolicy:
       pullSecrets: []
     nodeSelector:
-      node-group.dp.ssup2: "storage"
+      node-group.dp.ssup2: "master"
     tolerations: []
     labels: {}
     annotations: {}
