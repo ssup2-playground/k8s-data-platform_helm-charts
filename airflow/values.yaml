@@ -128,7 +128,7 @@ images:
 
 # Select certain nodes for airflow pods.
 nodeSelector:
-  node-group.dp.ssup2: "master"
+  node-group.dp.ssup2: "compute"
 affinity: {}
 tolerations: []
 topologySpreadConstraints: []
