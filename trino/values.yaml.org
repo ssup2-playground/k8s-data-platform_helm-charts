@@ -419,15 +419,14 @@ shareProcessNamespace:
 
 service:
   annotations: {}
-  type: LoadBalancer
+  type: ClusterIP
   port: 8080
   # service.nodePort -- The port the service listens on the host, for the `NodePort` type. If not set, Kubernetes will
   # [allocate a port
   # automatically](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport-custom-port).
   nodePort: ""
 
-auth:
-  passwordAuth: "root:$2y$10$6Kh4COsO4xmByv7ukp1jLObSpPt0K3Jj4qeHZCckU0Y8IDr3K5iny"
+auth: {}
 # auth -- Available authentication methods.
 # @raw
 # Use username and password provided as a [password file](https://trino.io/docs/current/security/password-file.html#file-format):
@@ -582,8 +581,7 @@ coordinator:
 
   terminationGracePeriodSeconds: 30
 
-  nodeSelector:
-    node-group.dp.ssup2: "compute"
+  nodeSelector: {}
 
   tolerations: []
 
@@ -764,8 +762,7 @@ worker:
 
   terminationGracePeriodSeconds: 30
 
-  nodeSelector:
-    node-group.dp.ssup2: "compute"
+  nodeSelector: {}
 
   tolerations: []
 
