@@ -2,8 +2,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: {{ .Values.fullnameOverride }}-config
+  name: hive-metastore-config
   labels:
-    app: {{ .Values.fullnameOverride }}
+    app: hive-metastore
 data:
-  hive-site.xml: {{- toYaml .Values.metastore.config | nindent 2 }}
+  hive-site.xml: {{- toYaml .Values.config | nindent 2 }}

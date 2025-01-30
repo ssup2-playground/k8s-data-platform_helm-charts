@@ -1,32 +1,32 @@
-{{- if .Values.metastore.schema.init }}
+{{- if .Values.schema.init }}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Values.fullnameOverride }}-initschema
   namespace: {{ .Release.Namespace }}
+  name: hive-metastore-initschema
 spec:
   backoffLimit: 3
   template:
     spec:
       restartPolicy: Never
-      {{- if .Values.metastore.imagePullSecret }}
+      {{- if .Values.imagePullSecret }}
       imagePullSecrets:
-        - name: {{ .Values.metastore.imagePullSecret }}
+        - name: {{ .Values.imagePullSecret }}
       {{- end }}
       containers:
         - name: init-schema
-          image: {{ .Values.metastore.image }}
+          image: {{ .Values.image }}
           command: [
-            "/opt/hive/bin/schematool", "--verbose", "-initSchema", "-dbType", {{ .Values.metastore.schema.dbType }}
+            "/opt/hive/bin/schematool", "--verbose", "-initSchema", "-dbType", {{ .Values.schema.dbType }}
           ]
           volumeMounts:
             - name: hive-cfg
               mountPath: /opt/hive/conf/hive-site.xml
               subPath: hive-site.xml
       nodeSelector:
-        {{- toYaml .Values.metastore.nodeSelector | nindent 8 }}
+        {{- toYaml .Values.nodeSelector | nindent 8 }}
       volumes:
         - name: hive-cfg
           configMap:
-            name: {{ .Values.fullnameOverride }}-config
+            name: hive-metastore-config
 {{- end }}

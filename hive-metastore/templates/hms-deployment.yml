@@ -2,29 +2,29 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: {{ .Values.fullnameOverride }}
+  name: hive-metastore
 spec:
-  replicas: {{ .Values.metastore.replicas }}
+  replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.fullnameOverride }}
+      app: hive-metastore
   template:
     metadata:
       labels:
-        app: {{ .Values.fullnameOverride }}
+        app: hive-metastore
     spec:
-      {{- if .Values.metastore.imagePullSecret }}
+      {{- if .Values.imagePullSecret }}
       imagePullSecrets:
-        - name: {{ .Values.metastore.imagePullSecret }}
+        - name: {{ .Values.imagePullSecret }}
       {{- end }}
       containers:
         - name: metastore
-          image: {{ .Values.metastore.image }}
+          image: {{ .Values.image }}
           env:
             - name: SERVICE_NAME
               value: "metastore"
             - name: DB_DRIVER
-              value: {{ .Values.metastore.schema.dbType }}
+              value: {{ .Values.schema.dbType }}
             - name: IS_RESUME
               value: "true"
           volumeMounts:
@@ -32,9 +32,9 @@ spec:
               mountPath: /opt/hive/conf/hive-site.xml
               subPath: hive-site.xml
       nodeSelector:
-        {{- toYaml .Values.metastore.nodeSelector | nindent 8 }}
+        {{- toYaml .Values.nodeSelector | nindent 8 }}
         
       volumes:
         - name: hive-cfg
           configMap:
-            name: {{ .Values.fullnameOverride }}-config
+            name: hive-metastore-config

@@ -510,7 +510,7 @@ coordinator:
     # coordinator.deployment.strategy -- The deployment strategy to use to replace existing pods with new ones.
 
   jvm:
-    maxHeapSize: "8G"
+    maxHeapSize: "2G"
     gcMethod:
       type: "UseG1GC"
       g1:
@@ -683,7 +683,7 @@ worker:
     # worker.deployment.strategy -- The deployment strategy to use to replace existing pods with new ones.
 
   jvm:
-    maxHeapSize: "8G"
+    maxHeapSize: "2G"
     gcMethod:
       type: "UseG1GC"
       g1:
