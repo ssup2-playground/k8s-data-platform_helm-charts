@@ -241,14 +241,14 @@ controller:
     initialDelaySeconds: 10
     periodSeconds: 10
     successThreshold: 1
-    timeoutSeconds: 1
+    timeoutSeconds: 5
   readinessProbe:
     enabled: true
     failureThreshold: 3
     initialDelaySeconds: 10
     periodSeconds: 10
     successThreshold: 1
-    timeoutSeconds: 1
+    timeoutSeconds: 5
   tlsMinVersion: "VersionTLS12"
   tlsCipherSuites: ""
 
@@ -314,14 +314,14 @@ speaker:
     initialDelaySeconds: 10
     periodSeconds: 10
     successThreshold: 1
-    timeoutSeconds: 1
+    timeoutSeconds: 5
   readinessProbe:
     enabled: true
     failureThreshold: 3
     initialDelaySeconds: 10
     periodSeconds: 10
     successThreshold: 1
-    timeoutSeconds: 1
+    timeoutSeconds: 5
   startupProbe:
     enabled: true
     failureThreshold: 30

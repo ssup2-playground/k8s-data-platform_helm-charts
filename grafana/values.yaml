@@ -360,7 +360,7 @@ resources: {}
 ## ref: https://kubernetes.io/docs/user-guide/node-selection/
 #
 nodeSelector:
-  node-group.dp.ssup2: "storage"
+  node-group.dp.ssup2: "master"
 
 ## Tolerations for pod assignment
 ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
@@ -413,7 +413,7 @@ extraContainerVolumes: []
 ##
 persistence:
   type: pvc
-  enabled: true
+  enabled: false
   # storageClassName: default
   accessModes:
     - ReadWriteOnce
