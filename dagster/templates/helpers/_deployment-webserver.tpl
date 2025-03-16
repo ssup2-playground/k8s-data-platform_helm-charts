@@ -30,9 +30,9 @@ spec:
         {{- . | toYaml | nindent 8 }}
         {{- end }}
       annotations:
-#        {{- if $userDeployments.enabled }}
-#        checksum/dagster-workspace: {{ include (print $.Template.BasePath "/configmap-workspace.yaml") . | sha256sum }}
-#        {{- end }}
+        {{- if $userDeployments.enabled }}
+        checksum/dagster-workspace: {{ include (print $.Template.BasePath "/configmap-workspace.yaml") . | sha256sum }}
+        {{- end }}
         checksum/dagster-instance: {{ include (print $.Template.BasePath "/configmap-instance.yaml") . | sha256sum }}
         {{- range $key, $value := $_.Values.dagsterWebserver.annotations }}
         {{ $key }}: {{ $value | squote }}

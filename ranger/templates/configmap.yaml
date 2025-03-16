@@ -25,17 +25,15 @@ data:
       db_ssl_required={{ .Values.conf.db_ssl_required }}
       db_ssl_verifyServerCertificate={{ .Values.conf.db_ssl_verifyServerCertificate }}
       db_ssl_auth_type={{ .Values.conf.db_ssl_auth_type }}
-
+      db_ssl_certificate_file={{ .Values.conf.db_ssl_certificate_file }}
+      db_override_connection_string={{ .Values.conf.db_override_connection_string }}
+      is_override_db_connection_string={{ .Values.conf.is_override_db_connection_string }}
       javax_net_ssl_keyStore={{ .Values.conf.javax_net_ssl_keyStore }}
       javax_net_ssl_keyStorePassword={{ .Values.conf.javax_net_ssl_keyStorePassword }}
       javax_net_ssl_trustStore={{ .Values.conf.javax_net_ssl_trustStore }}
       javax_net_ssl_trustStorePassword={{ .Values.conf.javax_net_ssl_trustStorePassword }}
       javax_net_ssl_trustStore_type={{ .Values.conf.javax_net_ssl_trustStore_type }}
       javax_net_ssl_keyStore_type={{ .Values.conf.javax_net_ssl_keyStore_type }}
-      db_ssl_certificate_file={{ .Values.conf.db_ssl_certificate_file }}
-      is_override_db_connection_string={{ .Values.conf.is_override_db_connection_string }}
-      db_override_connection_string={{ .Values.conf.db_override_connection_string }}
-
       rangerAdmin_password={{ .Values.conf.rangerAdmin_password }}
       rangerTagsync_password={{ .Values.conf.rangerTagsync_password }}
       rangerUsersync_password={{ .Values.conf.rangerUsersync_password }}
@@ -110,6 +108,7 @@ data:
       sso_enabled={{ .Values.conf.sso_enabled }}
       sso_providerurl={{ .Values.conf.sso_providerurl }}
       sso_publickey={{ .Values.conf.sso_publickey }}
+
       XAPOLICYMGR_DIR={{ .Values.conf.XAPOLICYMGR_DIR }}
       app_home={{ .Values.conf.app_home }}
       TMPFILE={{ .Values.conf.TMPFILE }}

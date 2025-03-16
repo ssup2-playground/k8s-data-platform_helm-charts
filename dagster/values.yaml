@@ -33,7 +33,7 @@ dagsterWebserver:
   image:
     # When a tag is not supplied for a Dagster provided image,
     # it will default as the Helm chart version.
-    repository: "docker.io/ssup2/dagster-celery-k8s"
+    repository: "ghcr.io/ssup2-playground/k8s-data-platform_dagster-celery-k8s"
     tag: ~
     pullPolicy: Always
 
@@ -44,7 +44,7 @@ dagsterWebserver:
   pathPrefix: ~
 
   service:
-    type: LoadBalancer
+    type: ClusterIP
     # Defines the port where the webserver will serve requests; if changed, don't forget to update the
     # livenessProbe and startupProbe entries below as well.
     port: 80
@@ -55,14 +55,14 @@ dagsterWebserver:
   # In this case, the webserver will need the addresses of the code servers in order to load the user code,
   # or the name of an existing configmap to mount as the workspace file.
   workspace:
-    enabled: true
+    enabled: false
 
     # List of servers to include in the workflow file. When set,
     # `externalConfigmap` must be empty.
     servers:
-      - host: "pipeline-test"
+      - host: "dagster-workflows"
         port: 3030
-        name: "pipeline-test"
+        name: "dagster-workflows"
 
     # Defines the name of a configmap provisioned outside of the
     # Helm release to use as workspace file. When set, `servers`
@@ -79,6 +79,9 @@ dagsterWebserver:
   # Defaults to 1 hour if not set.
   # Set to -1 to disable.
   dbPoolRecycle: ~
+
+  # The maximum overflow size of the sqlalchemy pool. Set to -1 to disable.
+  dbPoolMaxOverflow: ~
 
   # The log level of the uvicorn web server, defaults to warning if not set
   logLevel: ~
@@ -178,8 +181,7 @@ dagsterWebserver:
   # https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   # https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   annotations: {}
-  nodeSelector:
-    node-group.dp.ssup2: "compute"
+  nodeSelector: {}
   affinity: {}
   tolerations: []
   podSecurityContext: {}
@@ -235,6 +237,7 @@ computeLogManager:
   #   AzureBlobComputeLogManager,
   #   GCSComputeLogManager,
   #   S3ComputeLogManager,
+  #   LocalComputeLogManager,
   #   CustomComputeLogManager,
   # ]
   type: NoOpComputeLogManager
@@ -269,6 +272,10 @@ computeLogManager:
   #     skipEmptyFiles: ~
   #     uploadInterval: ~
   #     uploadExtraArgs: {}
+  ##  Uncomment this configuration if the LocalComputeLogManager is selected
+  #   localComputeLogManager:
+  #     baseDir: ~
+  #     pollingTimeout: ~
   ##  Uncomment this configuration if the CustomComputeLogManager is selected.
   ##  Using this setting requires a custom webserver image that defines the user specified
   ##  compute log manager in an installed python module.
@@ -309,7 +316,7 @@ dagster-user-deployments:
   enabled: true
 
   # If you plan on deploying user code in a separate Helm release, set this to false.
-  enableSubchart: false
+  enableSubchart: true
 
   # Specify secrets to run user code server containers based on images in private registries. See:
   # https://kubernetes.io/docs/concepts/containers/images/#referring-to-an-imagepullsecrets-on-a-pod
@@ -317,11 +324,11 @@ dagster-user-deployments:
 
   # List of unique deployments
   deployments:
-    - name: "k8s-example-user-code-1"
+    - name: "dagster-workflows"
       image:
         # When a tag is not supplied, it will default as the Helm chart version.
-        repository: "docker.io/dagster/user-code-example"
-        tag: ~
+        repository: "ghcr.io/ssup2-playground/k8s-data-platform_dagster-workflows"
+        tag: "0.4.0"
 
         # Change with caution! If you're using a fixed tag for pipeline run images, changing the
         # image pull policy to anything other than "Always" will use a cached/stale image, which is
@@ -342,8 +349,8 @@ dagster-user-deployments:
       # reload its definitions from within the Dagster UI without needing to restart the user code
       # deployment pod.
       dagsterApiGrpcArgs:
-        - "--python-file"
-        - "/example_project/example_repo/repo.py"
+        - "-f"
+        - "workflows/definitions.py"
       port: 3030
 
       # Whether or not to include configuration specified for this user code deployment in the pods
@@ -428,8 +435,7 @@ dagster-user-deployments:
       sidecarContainers: []
 
       annotations: {}
-      nodeSelector:
-        node-group.dp.ssup2: "compute"
+      nodeSelector: {}
       affinity: {}
       tolerations: []
       podSecurityContext: {}
@@ -622,10 +628,7 @@ runLauncher:
       #   jobMetadata: # raw config for the kubernetes job's metadata
       #     annotations:
       #       mykey: myvalue
-      runK8sConfig:
-        podSpecConfig:
-          nodeSelector:
-            node-group.dp.ssup2: "compute"
+      runK8sConfig: {}
 
     # This configuration will only be used if the CeleryK8sRunLauncher is selected
     celeryK8sRunLauncher:
@@ -638,7 +641,7 @@ runLauncher:
       image:
         # When a tag is not supplied for a Dagster provided image,
         # it will default as the Helm chart version.
-        repository: "docker.io/dagster/dagster-celery-k8s"
+        repository: "ghcr.io/ssup2-playground/k8s-data-platform_dagster-celery-k8s"
         tag: ~
         pullPolicy: Always
 
@@ -796,7 +799,7 @@ runLauncher:
 postgresql:
   # set postgresql.enabled to be false to disable deploy of a PostgreSQL database and use an
   # existing external PostgreSQL database
-  enabled: false
+  enabled: true
 
   # Used by init container to check that db is running. (Even if enabled:false)
   image:
@@ -806,16 +809,16 @@ postgresql:
     pullPolicy: IfNotPresent
 
   # set this PostgreSQL hostname when using an external PostgreSQL database
-  postgresqlHost: "postgresql.postgresql"
+  postgresqlHost: ""
 
-  postgresqlUsername: postgres
+  postgresqlUsername: test
 
   # Note when changing this password (e.g. in test) that credentials will
   # persist as long as the PVCs do -- see:
   # https://github.com/helm/charts/issues/12836#issuecomment-524552358
-  postgresqlPassword: root123!
+  postgresqlPassword: test
 
-  postgresqlDatabase: dagster
+  postgresqlDatabase: test
 
   # set postgresql parameter keywords for the connection string.
   # see: https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS
@@ -1093,7 +1096,7 @@ dagsterDaemon:
   image:
     # When a tag is not supplied for a Dagster provided image,
     # it will default as the Helm chart version.
-    repository: "docker.io/ssup2/dagster-celery-k8s"
+    repository: "ghcr.io/ssup2-playground/k8s-data-platform_dagster-celery-k8s"
     tag: ~
     pullPolicy: Always
 
@@ -1144,6 +1147,8 @@ dagsterDaemon:
     startTimeoutSeconds: 300
     # Timeout for runs to cancel (avoids runs hanging in CANCELING)
     # cancelTimeoutSeconds: 300
+    # Timeout for runs to finish (avoids runs hanging in RUNNING)
+    # maxRuntimeSeconds: 7200
     # How often to check on in progress runs
     pollIntervalSeconds: 120
     # [Experimental] Max number of times to attempt to resume a run with a new run worker instead
@@ -1275,8 +1280,7 @@ dagsterDaemon:
   extraPrependedInitContainers: []
 
   annotations: {}
-  nodeSelector:
-    node-group.dp.ssup2: "compute"
+  nodeSelector: {}
   affinity: {}
   tolerations: []
   podSecurityContext: {}

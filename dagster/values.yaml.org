@@ -33,7 +33,7 @@ dagsterWebserver:
   image:
     # When a tag is not supplied for a Dagster provided image,
     # it will default as the Helm chart version.
-    repository: "docker.io/dagster/dagster-celery-k8s"
+    repository: "ghcr.io/ssup2-playground/k8s-data-platform-dagster-celery-k8s"
     tag: ~
     pullPolicy: Always
 
@@ -79,6 +79,9 @@ dagsterWebserver:
   # Defaults to 1 hour if not set.
   # Set to -1 to disable.
   dbPoolRecycle: ~
+
+  # The maximum overflow size of the sqlalchemy pool. Set to -1 to disable.
+  dbPoolMaxOverflow: ~
 
   # The log level of the uvicorn web server, defaults to warning if not set
   logLevel: ~
@@ -234,6 +237,7 @@ computeLogManager:
   #   AzureBlobComputeLogManager,
   #   GCSComputeLogManager,
   #   S3ComputeLogManager,
+  #   LocalComputeLogManager,
   #   CustomComputeLogManager,
   # ]
   type: NoOpComputeLogManager
@@ -268,6 +272,10 @@ computeLogManager:
   #     skipEmptyFiles: ~
   #     uploadInterval: ~
   #     uploadExtraArgs: {}
+  ##  Uncomment this configuration if the LocalComputeLogManager is selected
+  #   localComputeLogManager:
+  #     baseDir: ~
+  #     pollingTimeout: ~
   ##  Uncomment this configuration if the CustomComputeLogManager is selected.
   ##  Using this setting requires a custom webserver image that defines the user specified
   ##  compute log manager in an installed python module.
@@ -633,7 +641,7 @@ runLauncher:
       image:
         # When a tag is not supplied for a Dagster provided image,
         # it will default as the Helm chart version.
-        repository: "docker.io/dagster/dagster-celery-k8s"
+        repository: "ghcr.io/ssup2-playground/k8s-data-platform-dagster-celery-k8s"
         tag: ~
         pullPolicy: Always
 
@@ -1088,7 +1096,7 @@ dagsterDaemon:
   image:
     # When a tag is not supplied for a Dagster provided image,
     # it will default as the Helm chart version.
-    repository: "docker.io/dagster/dagster-celery-k8s"
+    repository: "ghcr.io/ssup2-playground/k8s-data-platform-dagster-celery-k8s"
     tag: ~
     pullPolicy: Always
 
@@ -1139,6 +1147,8 @@ dagsterDaemon:
     startTimeoutSeconds: 300
     # Timeout for runs to cancel (avoids runs hanging in CANCELING)
     # cancelTimeoutSeconds: 300
+    # Timeout for runs to finish (avoids runs hanging in RUNNING)
+    # maxRuntimeSeconds: 7200
     # How often to check on in progress runs
     pollIntervalSeconds: 120
     # [Experimental] Max number of times to attempt to resume a run with a new run worker instead
