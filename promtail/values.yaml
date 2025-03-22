@@ -152,7 +152,13 @@ readinessProbe:
   timeoutSeconds: 1
 
 # -- Resource requests and limits
-resources: {}
+resources:
+  requests:
+    cpu: 125m
+    memory: 256Mi
+  limits:
+    cpu: 125m
+    memory: 256Mi
 #  limits:
 #    cpu: 200m
 #    memory: 128Mi

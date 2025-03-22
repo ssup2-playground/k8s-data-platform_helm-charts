@@ -263,7 +263,7 @@ consoleIngress:
 ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
 ##
 nodeSelector:
-  node-group.dp.ssup2: "storage"
+  node-group.dp.ssup2: "worker"
 tolerations: []
 affinity: {}
 topologySpreadConstraints: []
@@ -291,7 +291,11 @@ podLabels: {}
 ##
 resources:
   requests:
-    memory: 0
+    cpu: 2
+    memory: 4096Mi
+  limits:
+    cpu: 2
+    memory: 4096Mi
 
 ## List of policies to be created after minio install
 ##
@@ -502,7 +506,7 @@ postJob:
     runAsGroup: 1000
     fsGroup: 1000
   nodeSelector:
-    node-group.dp.ssup2: "storage"
+    node-group.dp.ssup2: "worker"
   tolerations: []
   affinity: {}
 
