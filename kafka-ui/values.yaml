@@ -142,7 +142,12 @@ ingress:
   succeedingPaths: []
 
 resources:
-  {}
+  requests:
+    cpu: 1000m
+    memory: 2048Mi
+  limits:
+    cpu: 1000m 
+    memory: 2048Mi
   # limits:
   #   cpu: 200m
   #   memory: 512Mi
@@ -158,7 +163,7 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 nodeSelector:
-  node-group.dp.ssup2: "storage"
+  node-group.dp.ssup2: "worker"
 
 tolerations: []
 

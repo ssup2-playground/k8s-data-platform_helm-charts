@@ -44,7 +44,7 @@ dagsterWebserver:
   pathPrefix: ~
 
   service:
-    type: ClusterIP
+    type: LoadBalancer
     # Defines the port where the webserver will serve requests; if changed, don't forget to update the
     # livenessProbe and startupProbe entries below as well.
     port: 80
@@ -181,12 +181,19 @@ dagsterWebserver:
   # https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   # https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   annotations: {}
-  nodeSelector: {}
+  nodeSelector:
+    node-group.dp.ssup2: "worker"
   affinity: {}
   tolerations: []
   podSecurityContext: {}
   securityContext: {}
-  resources: {}
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1024Mi
+    limits:
+      cpu: 500m
+      memory: 1024Mi
 
   # Configure initContainer resources separately from main container
   initContainerResources: {}
@@ -328,7 +335,7 @@ dagster-user-deployments:
       image:
         # When a tag is not supplied, it will default as the Helm chart version.
         repository: "ghcr.io/ssup2-playground/k8s-data-platform_dagster-workflows"
-        tag: "0.4.0"
+        tag: "0.4.4"
 
         # Change with caution! If you're using a fixed tag for pipeline run images, changing the
         # image pull policy to anything other than "Always" will use a cached/stale image, which is
@@ -435,12 +442,19 @@ dagster-user-deployments:
       sidecarContainers: []
 
       annotations: {}
-      nodeSelector: {}
+      nodeSelector:
+        node-group.dp.ssup2: "worker"
       affinity: {}
       tolerations: []
       podSecurityContext: {}
       securityContext: {}
-      resources: {}
+      resources:
+        requests:
+          cpu: 500m
+          memory: 1024Mi
+        limits:
+          cpu: 500m
+          memory: 1024Mi
 
       # Override the default K8s scheduler
       # schedulerName: ~
@@ -799,7 +813,7 @@ runLauncher:
 postgresql:
   # set postgresql.enabled to be false to disable deploy of a PostgreSQL database and use an
   # existing external PostgreSQL database
-  enabled: true
+  enabled: false
 
   # Used by init container to check that db is running. (Even if enabled:false)
   image:
@@ -809,16 +823,16 @@ postgresql:
     pullPolicy: IfNotPresent
 
   # set this PostgreSQL hostname when using an external PostgreSQL database
-  postgresqlHost: ""
+  postgresqlHost: "postgresql.postgresql"
 
-  postgresqlUsername: test
+  postgresqlUsername: postgres
 
   # Note when changing this password (e.g. in test) that credentials will
   # persist as long as the PVCs do -- see:
   # https://github.com/helm/charts/issues/12836#issuecomment-524552358
-  postgresqlPassword: test
+  postgresqlPassword: root123!
 
-  postgresqlDatabase: test
+  postgresqlDatabase: dagster
 
   # set postgresql parameter keywords for the connection string.
   # see: https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS
@@ -1280,12 +1294,19 @@ dagsterDaemon:
   extraPrependedInitContainers: []
 
   annotations: {}
-  nodeSelector: {}
+  nodeSelector:
+    node-group.dp.ssup2: "worker"
   affinity: {}
   tolerations: []
   podSecurityContext: {}
   securityContext: {}
-  resources: {}
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1024Mi
+    limits:
+      cpu: 500m
+      memory: 1024Mi
 
   # Configure initContainer resources separately from main container
   initContainerResources: {}
