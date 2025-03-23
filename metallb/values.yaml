@@ -223,7 +223,13 @@ controller:
     # nobody
     runAsUser: 65534
     fsGroup: 65534
-  resources: {}
+  resources:
+    requests:
+      cpu: "125m"
+      memory: "256Mi"
+    limits:
+      cpu: "125m"
+      memory: "256Mi"
     # limits:
       # cpu: 100m
       # memory: 100Mi
@@ -296,7 +302,13 @@ speaker:
   ## By default secretName: {{ "metallb.fullname" }}-memberlist
   ##
   # secretName:
-  resources: {}
+  resources:
+    requests:
+      cpu: "125m"
+      memory: "256Mi"
+    limits:
+      cpu: "125m"
+      memory: "256Mi"
     # limits:
       # cpu: 100m
       # memory: 100Mi

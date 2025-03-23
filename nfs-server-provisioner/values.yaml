@@ -113,7 +113,13 @@ priorityClass:
   ## PriorityClass value. The higher the value, the higher the scheduling priority
   value: 5
 
-resources: {}
+resources:
+  requests:
+    cpu: "125m"
+    memory: "256Mi"
+  limits:
+    cpu: "125m"
+    memory: "256Mi"
   # limits:
   #  cpu: 100m
   #  memory: 128Mi
