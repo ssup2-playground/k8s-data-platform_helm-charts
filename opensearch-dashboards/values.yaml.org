@@ -5,7 +5,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-opensearchHosts: "https://opensearch-cluster-master.opensearch:9200"
+opensearchHosts: "https://opensearch-cluster-master:9200"
 replicaCount: 1
 
 image:
@@ -147,7 +147,7 @@ hostAliases: []
 serverHost: "0.0.0.0"
 
 service:
-  type: LoadBalancer
+  type: ClusterIP
   # The IP family and IP families options are to set the behaviour in a dual-stack environment
   # Omitting these values will let the service fall back to whatever the CNI dictates the defaults
   # should be
@@ -189,11 +189,11 @@ ingress:
 
 resources:
   requests:
-    cpu: "500m"
-    memory: "1024Mi"
+    cpu: "100m"
+    memory: "512M"
   limits:
-    cpu: "500m"
-    memory: "1024Mi"
+    cpu: "100m"
+    memory: "512M"
 
 autoscaling:
   # This requires metrics server to be installed, to install use kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
@@ -208,8 +208,7 @@ autoscaling:
 updateStrategy:
   type: "Recreate"
 
-nodeSelector:
-  node-group.dp.ssup2: "worker"
+nodeSelector: {}
 
 tolerations: []
 

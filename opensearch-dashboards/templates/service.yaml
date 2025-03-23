@@ -40,4 +40,5 @@ spec:
     protocol: TCP
     port: {{ .Values.service.metricsPort }}
   selector:
-{{- include "opensearch-dashboards.selectorLabels" . | nindent 4 }}
+    app: {{ .Chart.Name }}
+    release: {{ .Release.Name | quote }}

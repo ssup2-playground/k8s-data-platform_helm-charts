@@ -1,14 +1,22 @@
-aws:
-  region: "default"
-  accessKeyId: "root"
-  secretAccessKey: "root123!"
-  s3Endpoint: "http://minio.minio:9000"
+#aws:
+#  region: "default"
+#  accessKeyId: "root"
+#  secretAccessKey: "root123!"
+#  s3Endpoint: "http://minio.minio:9000"
 
 image: ssup2/hive-metastore:4.0.1-0.1.6
 imagePullSecret: ""
 
+resources:
+  requests:
+    cpu: "500m"
+    memory: "1024Mi"
+  limits:
+    cpu: "500m"
+    memory: "1024Mi"
+
 schema:
-  init: false # false, true
+  init: false # set true to initialize the database, false to use existing database
   dbType: postgres
 
 config: |
@@ -64,6 +72,6 @@ config: |
   </configuration>
 
 nodeSelector:
-  node-group.dp.ssup2: "storage"
+  node-group.dp.ssup2: "worker"
 
 replicas: 1

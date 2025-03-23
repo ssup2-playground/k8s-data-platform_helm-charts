@@ -20,6 +20,8 @@ spec:
       containers:
         - name: metastore
           image: {{ .Values.image }}
+          resources:
+            {{ toYaml .Values.resources | nindent 12 }}
           env:
             - name: SERVICE_NAME
               value: "metastore"

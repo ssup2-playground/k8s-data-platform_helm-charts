@@ -14,33 +14,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 ---
-## [2.28.0]
-### Added
-- Updated OpenSearch Dashboards appVersion to 2.19.1
-### Changed
-### Deprecated
-### Removed
-### Fixed
-### Security
----
-## [2.27.1]
-### Added
-### Changed
-- Updated app labels with common labels `app.kubernetes.io`
-### Deprecated
-### Removed
-### Fixed
-### Security
----
-## [2.27.0]
-### Added
-- Updated OpenSearch Dashboards appVersion to 2.19.0
-### Changed
-### Deprecated
-### Removed
-### Fixed
-### Security
----
 ## [2.26.0]
 ### Added
 - Added plugins.removeList to allow remove plugins
@@ -466,10 +439,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
-[Unreleased]: https://github.com/opensearch-project/helm-charts/compare/opensearch-dashboards-2.28.0...HEAD
-[2.28.0]: https://github.com/opensearch-project/helm-charts/compare/opensearch-dashboards-2.27.1...opensearch-dashboards-2.28.0
-[2.27.1]: https://github.com/opensearch-project/helm-charts/compare/opensearch-dashboards-2.27.0...opensearch-dashboards-2.27.1
-[2.27.0]: https://github.com/opensearch-project/helm-charts/compare/opensearch-dashboards-2.26.0...opensearch-dashboards-2.27.0
+[Unreleased]: https://github.com/opensearch-project/helm-charts/compare/opensearch-dashboards-2.26.0...HEAD
 [2.26.0]: https://github.com/opensearch-project/helm-charts/compare/opensearch-dashboards-2.25.0...opensearch-dashboards-2.26.0
 [2.25.0]: https://github.com/opensearch-project/helm-charts/compare/opensearch-dashboards-2.24.1...opensearch-dashboards-2.25.0
 [2.24.1]: https://github.com/opensearch-project/helm-charts/compare/opensearch-dashboards-2.24.0...opensearch-dashboards-2.24.1
