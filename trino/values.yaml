@@ -510,7 +510,7 @@ coordinator:
     # coordinator.deployment.strategy -- The deployment strategy to use to replace existing pods with new ones.
 
   jvm:
-    maxHeapSize: "2G"
+    maxHeapSize: "3G"
     gcMethod:
       type: "UseG1GC"
       g1:
@@ -520,7 +520,7 @@ coordinator:
     memory:
       heapHeadroomPerNode: ""
     query:
-      maxMemoryPerNode: "1GB"
+      maxMemoryPerNode: "512MB"
 
   additionalJVMConfig: []
 
@@ -537,7 +537,13 @@ coordinator:
   #    protocol: TCP
   # ```
 
-  resources: {}
+  resources:
+    requests:
+      cpu: "2000m"
+      memory: "4096Mi"
+    limits:
+      cpu: "2000m"
+      memory: "4096Mi"
   # coordinator.resources -- It is recommended not to specify default resources
   # and to leave this as a conscious choice for the user. This also increases
   # chances charts run on environments with little resources, such as Minikube.
@@ -604,7 +610,7 @@ coordinator:
   terminationGracePeriodSeconds: 30
 
   nodeSelector:
-    node-group.dp.ssup2: "compute"
+    node-group.dp.ssup2: "worker"
 
   tolerations: []
 
@@ -683,7 +689,7 @@ worker:
     # worker.deployment.strategy -- The deployment strategy to use to replace existing pods with new ones.
 
   jvm:
-    maxHeapSize: "2G"
+    maxHeapSize: "3G"
     gcMethod:
       type: "UseG1GC"
       g1:
@@ -693,7 +699,7 @@ worker:
     memory:
       heapHeadroomPerNode: ""
     query:
-      maxMemoryPerNode: "1GB"
+      maxMemoryPerNode: "512MB"
 
   additionalJVMConfig: []
 
@@ -709,7 +715,13 @@ worker:
   #    protocol: TCP
   # ```
 
-  resources: {}
+  resources:
+    requests:
+      cpu: "2000m"
+      memory: "4096Mi"
+    limits:
+      cpu: "2000m"
+      memory: "4096Mi"
   # worker.resources -- It is recommended not to specify default resources and
   # to leave this as a conscious choice for the user. This also increases
   # chances charts run on environments with little resources, such as Minikube.
@@ -796,7 +808,7 @@ worker:
   terminationGracePeriodSeconds: 30
 
   nodeSelector:
-    node-group.dp.ssup2: "compute"
+    node-group.dp.ssup2: "worker"
 
   tolerations: []
 
