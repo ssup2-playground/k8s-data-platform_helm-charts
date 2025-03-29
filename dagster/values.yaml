@@ -247,8 +247,17 @@ computeLogManager:
   #   LocalComputeLogManager,
   #   CustomComputeLogManager,
   # ]
-  type: NoOpComputeLogManager
-  config: {}
+  type: S3ComputeLogManager
+  config:
+    s3ComputeLogManager:
+      bucket: "dagster"
+      prefix: "compute-log"
+      endpointUrl: "http://minio.minio:9000"
+      region: "default"
+      access_key_id: "root"
+      secret_access_key: "root123!"
+      useSsl: false
+      verify: false
   ##  Uncomment this configuration if the AzureBlobComputeLogManager is selected
   #   azureBlobComputeLogManager:
   #     storageAccount: ~
@@ -609,7 +618,13 @@ runLauncher:
       #   requests:
       #     cpu: 100m
       #     memory: 128Mi
-      resources: {}
+      resources:
+        requests:
+          cpu: 500m
+          memory: 1024Mi
+        limits:
+          cpu: 500m
+          memory: 1024Mi
 
       # Override the default K8s scheduler for launched Pods
       # schedulerName: ~
@@ -642,7 +657,10 @@ runLauncher:
       #   jobMetadata: # raw config for the kubernetes job's metadata
       #     annotations:
       #       mykey: myvalue
-      runK8sConfig: {}
+      runK8sConfig:
+        podSpecConfig:
+          nodeSelector:
+            node-group.dp.ssup2: "worker"
 
     # This configuration will only be used if the CeleryK8sRunLauncher is selected
     celeryK8sRunLauncher:
