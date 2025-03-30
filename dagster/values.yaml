@@ -247,17 +247,20 @@ computeLogManager:
   #   LocalComputeLogManager,
   #   CustomComputeLogManager,
   # ]
-  type: S3ComputeLogManager
+  type: CustomComputeLogManager
   config:
-    s3ComputeLogManager:
-      bucket: "dagster"
-      prefix: "compute-log"
-      endpointUrl: "http://minio.minio:9000"
-      region: "default"
-      access_key_id: "root"
-      secret_access_key: "root123!"
-      useSsl: false
-      verify: false
+    customComputeLogManager:
+      module: dagster_obstore.s3.compute_log_manager
+      class: S3ComputeLogManager
+      config:
+        region: "default"
+        endpoint: "http://minio.minio:9000"
+        bucket: "dagster"
+        prefix: "compute-log"
+        access_key_id: "root"
+        secret_access_key: "root123!"
+        allow_http: true
+        allow_invalid_certificates: true
   ##  Uncomment this configuration if the AzureBlobComputeLogManager is selected
   #   azureBlobComputeLogManager:
   #     storageAccount: ~
@@ -344,7 +347,7 @@ dagster-user-deployments:
       image:
         # When a tag is not supplied, it will default as the Helm chart version.
         repository: "ghcr.io/ssup2-playground/k8s-data-platform_dagster-workflows"
-        tag: "0.4.4"
+        tag: "0.4.6"
 
         # Change with caution! If you're using a fixed tag for pipeline run images, changing the
         # image pull policy to anything other than "Always" will use a cached/stale image, which is
@@ -618,13 +621,7 @@ runLauncher:
       #   requests:
       #     cpu: 100m
       #     memory: 128Mi
-      resources:
-        requests:
-          cpu: 500m
-          memory: 1024Mi
-        limits:
-          cpu: 500m
-          memory: 1024Mi
+      resources: {}
 
       # Override the default K8s scheduler for launched Pods
       # schedulerName: ~
