@@ -189,11 +189,11 @@ dagsterWebserver:
   securityContext: {}
   resources:
     requests:
-      cpu: 500m
-      memory: 1024Mi
+      cpu: 1000m
+      memory: 2048Mi
     limits:
-      cpu: 500m
-      memory: 1024Mi
+      cpu: 1000m
+      memory: 2048Mi
 
   # Configure initContainer resources separately from main container
   initContainerResources: {}
@@ -347,7 +347,7 @@ dagster-user-deployments:
       image:
         # When a tag is not supplied, it will default as the Helm chart version.
         repository: "ghcr.io/ssup2-playground/k8s-data-platform_dagster-workflows"
-        tag: "0.4.6"
+        tag: "0.4.8"
 
         # Change with caution! If you're using a fixed tag for pipeline run images, changing the
         # image pull policy to anything other than "Always" will use a cached/stale image, which is
@@ -462,11 +462,11 @@ dagster-user-deployments:
       securityContext: {}
       resources:
         requests:
-          cpu: 500m
-          memory: 1024Mi
+          cpu: 1000m
+          memory: 2048Mi
         limits:
-          cpu: 500m
-          memory: 1024Mi
+          cpu: 1000m
+          memory: 2048Mi
 
       # Override the default K8s scheduler
       # schedulerName: ~
@@ -1191,7 +1191,7 @@ dagsterDaemon:
 
   runRetries:
     enabled: true
-    maxRetries: 0
+    maxRetries: 2
 
   sensors:
     # Whether to evaluate sensors using an asynchronous thread pool, allowing sensprs
