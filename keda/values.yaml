@@ -484,24 +484,24 @@ resources:
       cpu: 125m
       memory: 256Mi
     limits:
-      cpu: 125m
-      memory: 256Mi
+      cpu: 250m
+      memory: 512Mi
   # -- Manage [resource request & limits] of KEDA metrics apiserver pod
   metricServer:
     requests:
       cpu: 125m
       memory: 256Mi
     limits:
-      cpu: 125m
-      memory: 256Mi
+      cpu: 250m
+      memory: 512Mi
   # -- Manage [resource request & limits] of KEDA admission webhooks pod
   webhooks:
     requests:
       cpu: 125m
       memory: 256Mi
     limits:
-      cpu: 125m
-      memory: 256Mi
+      cpu: 250m
+      memory: 512Mi
 # -- Node selector for pod scheduling ([docs](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/))
 nodeSelector:
   node-group.dp.ssup2: "master"

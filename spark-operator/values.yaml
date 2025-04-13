@@ -327,11 +327,11 @@ webhook:
   # -- Pod resource requests and limits for webhook pods.
   resources:
     requests:
-      cpu: "125m"
-      memory: "256Mi"
+      cpu: "250m"
+      memory: "512Mi"
     limits:
-      cpu: "125m"
-      memory: "256Mi"
+      cpu: "500m"
+      memory: "1024Mi"
     # limits:
     #   cpu: 100m
     #   memory: 300Mi

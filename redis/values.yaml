@@ -786,8 +786,8 @@ replica:
       cpu: 250m
       memory: 512Mi
     limits:
-      cpu: 250m
-      memory: 512Mi
+      cpu: 500m
+      memory: 1024Mi
   ## Configure Pods Security Context
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
   ## @param replica.podSecurityContext.enabled Enabled Redis&reg; replicas pods' Security Context

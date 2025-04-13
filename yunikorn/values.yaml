@@ -101,11 +101,11 @@ ingress:
 
 resources:
   requests:
-    cpu: 125m
-    memory: 256Mi
+    cpu: 250m
+    memory: 512Mi
   limits:
-    cpu: 125m
-    memory: 256Mi
+    cpu: 500m
+    memory: 512Mi
 
 # Bootstrap configuration for YuniKorn - will be rendered into yunikorn-defaults ConfigMap.
 # Any valid options for YuniKorn may be specified here.

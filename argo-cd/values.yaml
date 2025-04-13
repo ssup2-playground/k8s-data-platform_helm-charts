@@ -1969,8 +1969,8 @@ server:
       cpu: 250m
       memory: 512Mi
     limits:
-      cpu: 250m
-      memory: 512Mi
+      cpu: 500m
+      memory: 1024Mi
   #  limits:
   #    cpu: 100m
   #    memory: 128Mi

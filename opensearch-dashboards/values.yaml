@@ -192,8 +192,8 @@ resources:
     cpu: "500m"
     memory: "1024Mi"
   limits:
-    cpu: "500m"
-    memory: "1024Mi"
+    cpu: "1000m"
+    memory: "2048Mi"
 
 autoscaling:
   # This requires metrics server to be installed, to install use kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml

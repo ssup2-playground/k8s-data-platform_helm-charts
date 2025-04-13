@@ -641,8 +641,8 @@ controller:
       cpu: 1000m
       memory: 2048Mi
     limits:
-      cpu: 1000m
-      memory: 2048Mi
+      cpu: 2000m
+      memory: 4096Mi
   ## Kafka pods' Security Context
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
   ## @param controller.podSecurityContext.enabled Enable security context for the pods
