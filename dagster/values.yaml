@@ -388,7 +388,9 @@ dagster-user-deployments:
       #   value: "one"
       # - name: ENV_TWO
       #   value: "two"
-      env: []
+      env:
+        - name: USER
+          value: "ssup2"
 
       # Additional environment variables can be retrieved and set from ConfigMaps. See:
       # https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
