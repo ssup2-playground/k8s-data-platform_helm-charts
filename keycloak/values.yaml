@@ -367,7 +367,13 @@ resourcesPreset: "large"
 ##     cpu: 3
 ##     memory: 1024Mi
 ##
-resources: {}
+resources:
+  requests:
+    cpu: 1000m
+    memory: 2048Mi
+  limits:
+    cpu: 2000m
+    memory: 4096Mi
 ## Configure extra options for Keycloak containers' liveness, readiness and startup probes
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes
 ## @param livenessProbe.enabled Enable livenessProbe on Keycloak containers
@@ -407,8 +413,8 @@ readinessProbe:
 ## @param startupProbe.successThreshold Success threshold for startupProbe
 ##
 startupProbe:
-  enabled: true
-  initialDelaySeconds: 600
+  enabled: false
+  initialDelaySeconds: 30
   periodSeconds: 5
   timeoutSeconds: 5
   failureThreshold: 60
@@ -475,7 +481,7 @@ affinity: {}
 ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/
 ##
 nodeSelector:
-  node-group.dp.ssup2: "storage"
+  node-group.dp.ssup2: "worker"
   
 ## @param tolerations Tolerations for pod assignment
 ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/

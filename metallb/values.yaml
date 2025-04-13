@@ -225,11 +225,11 @@ controller:
     fsGroup: 65534
   resources:
     requests:
+      cpu: "125m"
+      memory: "256Mi"
+    limits:
       cpu: "250m"
       memory: "512Mi"
-    limits:
-      cpu: "500m"
-      memory: "1024Mi"
     # limits:
       # cpu: 100m
       # memory: 100Mi
@@ -304,11 +304,11 @@ speaker:
   # secretName:
   resources:
     requests:
-      cpu: "125m"
-      memory: "256Mi"
-    limits:
       cpu: "250m"
       memory: "512Mi"
+    limits:
+      cpu: "500m"
+      memory: "1024Mi"
     # limits:
       # cpu: 100m
       # memory: 100Mi

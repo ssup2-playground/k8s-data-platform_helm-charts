@@ -205,7 +205,13 @@ ranger_usersync:
 
 imagePullSecrets: []
 
-resources: {}
+resources:
+  requests:
+    cpu: 1000m
+    memory: 2048Mi
+  limits:
+    cpu: 2000m
+    memory: 4096Mi
 
 autoscaling:
   enabled: false
@@ -214,7 +220,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 
 nodeSelector:
-  node-group.dp.ssup2: "storage"
+  node-group.dp.ssup2: "worker"
 
 tolerations: []
 

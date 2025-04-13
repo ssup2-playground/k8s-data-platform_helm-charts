@@ -163,11 +163,11 @@ controller:
   # 'failed to run spark-submit for SparkApplication [...]: signal: killed' - when this happens, you may want to increase memory limits.
   resources:
     requests:
-      cpu: "125m"
-      memory: "256Mi"
+      cpu: "250m"
+      memory: "512Mi"
     limits:
-      cpu: "125m"
-      memory: "256Mi"
+      cpu: "500m"
+      memory: "1024Mi"
     # limits:
     #   cpu: 100m
     #   memory: 300Mi
