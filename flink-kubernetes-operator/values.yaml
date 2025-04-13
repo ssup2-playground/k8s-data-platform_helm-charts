@@ -89,11 +89,11 @@ operatorPod:
   topologySpreadConstraints: []
   resources:
     requests:
+      cpu: "250m"
+      memory: "512Mi"
+    limits:
       cpu: "500m"
       memory: "1024Mi"
-    limits:
-      cpu: "1000m"
-      memory: "2048Mi"
   # resources:
   #   limits:
   #     cpu: "250m"
