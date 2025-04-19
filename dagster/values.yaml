@@ -347,7 +347,7 @@ dagster-user-deployments:
       image:
         # When a tag is not supplied, it will default as the Helm chart version.
         repository: "ghcr.io/ssup2-playground/k8s-data-platform_dagster-workflows"
-        tag: "0.4.8"
+        tag: "0.5.0"
 
         # Change with caution! If you're using a fixed tag for pipeline run images, changing the
         # image pull policy to anything other than "Always" will use a cached/stale image, which is
@@ -389,6 +389,8 @@ dagster-user-deployments:
       # - name: ENV_TWO
       #   value: "two"
       env:
+        - name: WEATHER_SOUTHKOREA_API_KEY
+          value: "6Z0Atvi5Nos0uS8cgukb1JJto9dOhHNRjcq0yWsZcu3ZWc1HzqgcREbpeSCaV7Sm5BaLOb1+fBXx/K/HcndM7A=="
         - name: USER
           value: "ssup2"
 
@@ -1473,7 +1475,12 @@ retention:
 #   auto_materialize: # See: https://docs.dagster.io/deployment/dagster-instance#auto-materialize
 #     run_tags:
 #       key: value
-additionalInstanceConfig: {}
+additionalInstanceConfig:
+  concurrency:
+    runs:
+      tag_concurrency_limits:
+      - key: 'dagster/backfill'
+        limit: 5
 
 ####################################################################################################
 # [DEPRECATED] Pipeline Run
