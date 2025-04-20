@@ -347,7 +347,7 @@ dagster-user-deployments:
       image:
         # When a tag is not supplied, it will default as the Helm chart version.
         repository: "ghcr.io/ssup2-playground/k8s-data-platform_dagster-workflows"
-        tag: "0.5.0"
+        tag: "0.5.2"
 
         # Change with caution! If you're using a fixed tag for pipeline run images, changing the
         # image pull policy to anything other than "Always" will use a cached/stale image, which is
@@ -662,6 +662,8 @@ runLauncher:
         podSpecConfig:
           nodeSelector:
             node-group.dp.ssup2: "worker"
+        jobSpecConfig:
+          ttlSecondsAfterFinished: 300
 
     # This configuration will only be used if the CeleryK8sRunLauncher is selected
     celeryK8sRunLauncher:
@@ -1148,7 +1150,7 @@ dagsterDaemon:
     config:
       queuedRunCoordinator:
         # The maximum number of runs to allow to be running at once. Defaults to no limit.
-        maxConcurrentRuns: ~
+        maxConcurrentRuns: 2
         # Tag based concurrency limits. See https://docs.dagster.io/deployment/run-coordinator#usage
         # for examples.
         tagConcurrencyLimits: []
@@ -1475,12 +1477,7 @@ retention:
 #   auto_materialize: # See: https://docs.dagster.io/deployment/dagster-instance#auto-materialize
 #     run_tags:
 #       key: value
-additionalInstanceConfig:
-  concurrency:
-    runs:
-      tag_concurrency_limits:
-      - key: 'dagster/backfill'
-        limit: 5
+additionalInstanceConfig: {}
 
 ####################################################################################################
 # [DEPRECATED] Pipeline Run
