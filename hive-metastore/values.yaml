@@ -4,7 +4,7 @@
 #  secretAccessKey: "root123!"
 #  s3Endpoint: "http://minio.minio:9000"
 
-image: ssup2/hive-metastore:4.0.1-0.1.6
+image: ghcr.io/ssup2-playground/k8s-data-platform_hive-metastore:4.0.0-0.1.0
 imagePullSecret: ""
 
 resources:
