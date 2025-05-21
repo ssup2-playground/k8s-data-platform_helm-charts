@@ -347,7 +347,7 @@ dagster-user-deployments:
       image:
         # When a tag is not supplied, it will default as the Helm chart version.
         repository: "ghcr.io/ssup2-playground/k8s-data-platform_dagster-workflows"
-        tag: "0.5.3"
+        tag: "0.5.4"
 
         # Change with caution! If you're using a fixed tag for pipeline run images, changing the
         # image pull policy to anything other than "Always" will use a cached/stale image, which is
@@ -1150,10 +1150,16 @@ dagsterDaemon:
     config:
       queuedRunCoordinator:
         # The maximum number of runs to allow to be running at once. Defaults to no limit.
-        maxConcurrentRuns: 2
+        maxConcurrentRuns: 4
         # Tag based concurrency limits. See https://docs.dagster.io/deployment/run-coordinator#usage
         # for examples.
-        tagConcurrencyLimits: []
+        tagConcurrencyLimits:
+          - key: "dagster/backfill"
+            limit: 2
+          - key: "no-concurrency"
+            value:
+              applyLimitPerUniqueValue: true
+            limit: 1
         # How frequently in seconds to check for new runs to pull from the queue and launch.
         # Defaults to 5.
         dequeueIntervalSeconds: ~
