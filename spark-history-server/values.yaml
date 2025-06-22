@@ -27,12 +27,13 @@ serviceAccount:
 # Example: s3a://bucket-name/spark/logs
 logPath: s3a://spark/logs
 extraSparkConfigs: |-
-  spark.eventLog.enabled=true
   spark.history.ui.port=18080
   spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem
   spark.hadoop.fs.s3a.endpoint=http://minio.minio:9000
   spark.hadoop.fs.s3a.access.key=root
   spark.hadoop.fs.s3a.secret.key=root123!
+  spark.hadoop.fs.s3a.path.style.access=true
+  spark.hadoop.fs.s3a.connection.ssl.enabled=false
 
 podAnnotations: {}
 
