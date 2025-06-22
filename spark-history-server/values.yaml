@@ -30,7 +30,7 @@ extraSparkConfigs: |-
   spark.eventLog.enabled=true
   spark.history.ui.port=18080
   spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem
-  spark.hadoop.fs.s3a.endpoint=minio.minio:9000
+  spark.hadoop.fs.s3a.endpoint=http://minio.minio:9000
   spark.hadoop.fs.s3a.access.key=root
   spark.hadoop.fs.s3a.secret.key=root123!
 

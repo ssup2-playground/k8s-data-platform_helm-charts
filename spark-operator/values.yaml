@@ -29,9 +29,9 @@ commonLabels: {}
 
 image:
   # -- Image registry.
-  registry: docker.io
+  registry: ghcr.io
   # -- Image repository.
-  repository: kubeflow/spark-operator
+  repository: kubeflow/spark-operator/controller
   # -- Image tag.
   # @default -- If not set, the chart appVersion will be used.
   tag: ""
@@ -44,6 +44,10 @@ image:
 controller:
   # -- Number of replicas of controller.
   replicas: 1
+
+  leaderElection:
+    # -- Specifies whether to enable leader election for controller.
+    enable: true
 
   # -- Reconcile concurrency, higher values might increase memory usage.
   workers: 10
@@ -225,6 +229,10 @@ webhook:
   # -- Number of replicas of webhook server.
   replicas: 1
 
+  leaderElection:
+    # -- Specifies whether to enable leader election for webhook.
+    enable: true
+
   # -- Configure the verbosity of logging, can be one of `debug`, `info`, `error`.
   logLevel: info
 
@@ -393,6 +401,8 @@ prometheus:
     endpoint: /metrics
     # -- Metrics prefix, will be added to all exported metrics.
     prefix: ""
+    # -- Job Start Latency histogram buckets. Specified in seconds.
+    jobStartLatencyBuckets: "30,60,90,120,150,180,210,240,270,300"
 
   # Prometheus pod monitor for controller pods
   podMonitor:
@@ -407,3 +417,22 @@ prometheus:
     podMetricsEndpoint:
       scheme: http
       interval: 5s
+
+certManager:
+  # -- Specifies whether to use [cert-manager](https://cert-manager.io) to generate certificate for webhook.
+  # `webhook.enable` must be set to `true` to enable cert-manager.
+  enable: false
+  # -- The reference to the issuer.
+  # @default -- A self-signed issuer will be created and used if not specified.
+  issuerRef: {}
+    # group: cert-manager.io
+    # kind: ClusterIssuer
+    # name: selfsigned
+  # -- The duration of the certificate validity (e.g. `2160h`).
+  # See [cert-manager.io/v1.Certificate](https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.Certificate).
+  # @default -- `2160h` (90 days) will be used if not specified.
+  duration: ""
+  # -- The duration before the certificate expiration to renew the certificate (e.g. `720h`).
+  # See [cert-manager.io/v1.Certificate](https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.Certificate).
+  # @default -- 1/3 of issued certificate’s lifetime.
+  renewBefore: ""

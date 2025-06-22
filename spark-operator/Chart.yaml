@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: 2.1.0
+appVersion: 2.2.0
 description: A Helm chart for Spark on Kubernetes operator.
 home: https://github.com/kubeflow/spark-operator
 keywords:
@@ -13,4 +13,4 @@ maintainers:
   name: ChenYi015
   url: https://github.com/ChenYi015
 name: spark-operator
-version: 2.1.0
+version: 2.2.0

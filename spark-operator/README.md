@@ -1,6 +1,6 @@
 # spark-operator
 
-![Version: 2.1.0](https://img.shields.io/badge/Version-2.1.0-informational?style=flat-square) ![AppVersion: 2.1.0](https://img.shields.io/badge/AppVersion-2.1.0-informational?style=flat-square)
+![Version: 2.2.0](https://img.shields.io/badge/Version-2.2.0-informational?style=flat-square) ![AppVersion: 2.2.0](https://img.shields.io/badge/AppVersion-2.2.0-informational?style=flat-square)
 
 A Helm chart for Spark on Kubernetes operator.
 
@@ -78,12 +78,13 @@ See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall) for command docum
 | nameOverride | string | `""` | String to partially override release name. |
 | fullnameOverride | string | `""` | String to fully override release name. |
 | commonLabels | object | `{}` | Common labels to add to the resources. |
-| image.registry | string | `"docker.io"` | Image registry. |
-| image.repository | string | `"kubeflow/spark-operator"` | Image repository. |
+| image.registry | string | `"ghcr.io"` | Image registry. |
+| image.repository | string | `"kubeflow/spark-operator/controller"` | Image repository. |
 | image.tag | string | If not set, the chart appVersion will be used. | Image tag. |
 | image.pullPolicy | string | `"IfNotPresent"` | Image pull policy. |
 | image.pullSecrets | list | `[]` | Image pull secrets for private image registry. |
 | controller.replicas | int | `1` | Number of replicas of controller. |
+| controller.leaderElection.enable | bool | `true` | Specifies whether to enable leader election for controller. |
 | controller.workers | int | `10` | Reconcile concurrency, higher values might increase memory usage. |
 | controller.logLevel | string | `"info"` | Configure the verbosity of logging, can be one of `debug`, `info`, `error`. |
 | controller.driverPodCreationGracePeriod | string | `"10s"` | Grace period after a successful spark-submit when driver pod not found errors will be retried. Useful if the driver pod can take some time to be created. |
@@ -114,7 +115,7 @@ See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall) for command docum
 | controller.envFrom | list | `[]` | Environment variable sources for controller containers. |
 | controller.volumeMounts | list | `[{"mountPath":"/tmp","name":"tmp","readOnly":false}]` | Volume mounts for controller containers. |
 | controller.resources | object | `{}` | Pod resource requests and limits for controller containers. Note, that each job submission will spawn a JVM within the controller pods using "/usr/local/openjdk-11/bin/java -Xmx128m". Kubernetes may kill these Java processes at will to enforce resource limits. When that happens, you will see the following error: 'failed to run spark-submit for SparkApplication [...]: signal: killed' - when this happens, you may want to increase memory limits. |
-| controller.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false,"readOnlyRootFilesystem":true,"runAsNonRoot":true}` | Security context for controller containers. |
+| controller.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false,"readOnlyRootFilesystem":true,"runAsNonRoot":true,"seccompProfile":{"type":"RuntimeDefault"}}` | Security context for controller containers. |
 | controller.sidecars | list | `[]` | Sidecar containers for controller pods. |
 | controller.podDisruptionBudget.enable | bool | `false` | Specifies whether to create pod disruption budget for controller. Ref: [Specifying a Disruption Budget for your Application](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
 | controller.podDisruptionBudget.minAvailable | int | `1` | The number of pods that must be available. Require `controller.replicas` to be greater than 1 |
@@ -127,6 +128,7 @@ See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall) for command docum
 | controller.workqueueRateLimiter.maxDelay.duration | string | `"6h"` | Specifies the maximum delay duration for the workqueue rate limiter. |
 | webhook.enable | bool | `true` | Specifies whether to enable webhook. |
 | webhook.replicas | int | `1` | Number of replicas of webhook server. |
+| webhook.leaderElection.enable | bool | `true` | Specifies whether to enable leader election for webhook. |
 | webhook.logLevel | string | `"info"` | Configure the verbosity of logging, can be one of `debug`, `info`, `error`. |
 | webhook.port | int | `9443` | Specifies webhook port. |
 | webhook.portName | string | `"webhook"` | Specifies webhook service port name. |
@@ -153,7 +155,7 @@ See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall) for command docum
 | webhook.envFrom | list | `[]` | Environment variable sources for webhook containers. |
 | webhook.volumeMounts | list | `[{"mountPath":"/etc/k8s-webhook-server/serving-certs","name":"serving-certs","readOnly":false,"subPath":"serving-certs"}]` | Volume mounts for webhook containers. |
 | webhook.resources | object | `{}` | Pod resource requests and limits for webhook pods. |
-| webhook.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false,"readOnlyRootFilesystem":true,"runAsNonRoot":true}` | Security context for webhook containers. |
+| webhook.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false,"readOnlyRootFilesystem":true,"runAsNonRoot":true,"seccompProfile":{"type":"RuntimeDefault"}}` | Security context for webhook containers. |
 | webhook.podDisruptionBudget.enable | bool | `false` | Specifies whether to create pod disruption budget for webhook. Ref: [Specifying a Disruption Budget for your Application](https://kubernetes.io/docs/tasks/run-application/configure-pdb/) |
 | webhook.podDisruptionBudget.minAvailable | int | `1` | The number of pods that must be available. Require `webhook.replicas` to be greater than 1 |
 | spark.jobNamespaces | list | `["default"]` | List of namespaces where to run spark jobs. If empty string is included, all namespaces will be allowed. Make sure the namespaces have already existed. |
@@ -168,10 +170,15 @@ See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall) for command docum
 | prometheus.metrics.portName | string | `"metrics"` | Metrics port name. |
 | prometheus.metrics.endpoint | string | `"/metrics"` | Metrics serving endpoint. |
 | prometheus.metrics.prefix | string | `""` | Metrics prefix, will be added to all exported metrics. |
+| prometheus.metrics.jobStartLatencyBuckets | string | `"30,60,90,120,150,180,210,240,270,300"` | Job Start Latency histogram buckets. Specified in seconds. |
 | prometheus.podMonitor.create | bool | `false` | Specifies whether to create pod monitor. Note that prometheus metrics should be enabled as well. |
 | prometheus.podMonitor.labels | object | `{}` | Pod monitor labels |
 | prometheus.podMonitor.jobLabel | string | `"spark-operator-podmonitor"` | The label to use to retrieve the job name from |
 | prometheus.podMonitor.podMetricsEndpoint | object | `{"interval":"5s","scheme":"http"}` | Prometheus metrics endpoint properties. `metrics.portName` will be used as a port |
+| certManager.enable | bool | `false` | Specifies whether to use [cert-manager](https://cert-manager.io) to generate certificate for webhook. `webhook.enable` must be set to `true` to enable cert-manager. |
+| certManager.issuerRef | object | A self-signed issuer will be created and used if not specified. | The reference to the issuer. |
+| certManager.duration | string | `2160h` (90 days) will be used if not specified. | The duration of the certificate validity (e.g. `2160h`). See [cert-manager.io/v1.Certificate](https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.Certificate). |
+| certManager.renewBefore | string | 1/3 of issued certificate’s lifetime. | The duration before the certificate expiration to renew the certificate (e.g. `720h`). See [cert-manager.io/v1.Certificate](https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.Certificate). |
 
 ## Maintainers
 
