@@ -149,7 +149,9 @@ controller:
   #   whenUnsatisfiable: DoNotSchedule
 
   # -- Environment variables for controller containers.
-  env: []
+  env:
+  - name: SPARK_SUBMIT_OPTS # https://github.com/kubeflow/spark-operator/issues/1132#issuecomment-2688276488
+    value: "-Divy.cache.dir=/tmp -Divy.home=/tmp"
 
   # -- Environment variable sources for controller containers.
   envFrom: []
@@ -371,7 +373,7 @@ spark:
   # If empty string is included, all namespaces will be allowed.
   # Make sure the namespaces have already existed.
   jobNamespaces:
-  - default
+  - spark
 
   serviceAccount:
     # -- Specifies whether to create a service account for spark applications.
