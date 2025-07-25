@@ -20,4 +20,8 @@ rules:
   - apiGroups: [""]
     resources: ["pods/log", "pods/status"]
     verbs: ["get", "watch", "list"]
+  # For spark
+  - apiGroups: [""]
+    resources: ["services", "endpoints", "configmaps", "persistentvolumeclaims"]
+    verbs: ["create", "delete", "deletecollection", "get", "list", "patch", "update", "watch"]
 {{- end -}}

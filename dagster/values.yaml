@@ -55,7 +55,7 @@ dagsterWebserver:
   # In this case, the webserver will need the addresses of the code servers in order to load the user code,
   # or the name of an existing configmap to mount as the workspace file.
   workspace:
-    enabled: false
+    enabled: true
 
     # List of servers to include in the workflow file. When set,
     # `externalConfigmap` must be empty.
@@ -335,7 +335,7 @@ dagster-user-deployments:
   enabled: true
 
   # If you plan on deploying user code in a separate Helm release, set this to false.
-  enableSubchart: true
+  enableSubchart: false
 
   # Specify secrets to run user code server containers based on images in private registries. See:
   # https://kubernetes.io/docs/concepts/containers/images/#referring-to-an-imagepullsecrets-on-a-pod
@@ -369,7 +369,7 @@ dagster-user-deployments:
       # deployment pod.
       dagsterApiGrpcArgs:
         - "-f"
-        - "workflows/definitions.py"
+        - "/example_project/example_repo/repo.py"
       port: 3030
 
       # Whether or not to include configuration specified for this user code deployment in the pods
@@ -388,11 +388,7 @@ dagster-user-deployments:
       #   value: "one"
       # - name: ENV_TWO
       #   value: "two"
-      env:
-        - name: WEATHER_SOUTHKOREA_API_KEY
-          value: "6Z0Atvi5Nos0uS8cgukb1JJto9dOhHNRjcq0yWsZcu3ZWc1HzqgcREbpeSCaV7Sm5BaLOb1+fBXx/K/HcndM7A=="
-        - name: USER
-          value: "ssup2"
+      env: []
 
       # Additional environment variables can be retrieved and set from ConfigMaps. See:
       # https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables
