@@ -26,7 +26,7 @@ deployments:
     image:
       # When a tag is not supplied, it will default as the Helm chart version.
       repository: "ghcr.io/ssup2-playground/k8s-data-platform_dagster-workflows"
-      tag: "commit-b6bdc6e4"
+      tag: "commit-b47f201e"
       # Change with caution! If you're using a fixed tag for pipeline run images, changing the
       # image pull policy to anything other than "Always" will use a cached/stale image, which is
       # almost certainly not what you want.
