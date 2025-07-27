@@ -454,19 +454,12 @@ dagster-user-deployments:
       sidecarContainers: []
 
       annotations: {}
-      nodeSelector:
-        node-group.dp.ssup2: "worker"
+      nodeSelector: {}
       affinity: {}
       tolerations: []
       podSecurityContext: {}
       securityContext: {}
-      resources:
-        requests:
-          cpu: 1000m
-          memory: 2048Mi
-        limits:
-          cpu: 2000m
-          memory: 4096Mi
+      resources: {}
 
       # Override the default K8s scheduler
       # schedulerName: ~

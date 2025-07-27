@@ -26,7 +26,7 @@ deployments:
     image:
       # When a tag is not supplied, it will default as the Helm chart version.
       repository: "ghcr.io/ssup2-playground/k8s-data-platform_dagster-workflows"
-      tag: "commit-b47f201e"
+      tag: "0.8.0"
       # Change with caution! If you're using a fixed tag for pipeline run images, changing the
       # image pull policy to anything other than "Always" will use a cached/stale image, which is
       # almost certainly not what you want.
@@ -123,6 +123,14 @@ deployments:
     #   - name: secret
     envSecrets: []
 
+    # Additional labels that should be included. See:
+    # https://kubernetes.io/docs/concepts/overview/working-with-objects/labels
+    #
+    # Example:
+    # labels:
+    #   my-label-key: my_label-value
+    labels: {}
+
     # Init containers to run before the main container. See:
     # https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
     initContainers: []
@@ -140,13 +148,19 @@ deployments:
     sidecarContainers: []
 
     annotations: {}
-    nodeSelector: {}
+    nodeSelector:
+      node-group.dp.ssup2: "worker"
     affinity: {}
     tolerations: []
     podSecurityContext: {}
     securityContext: {}
-    resources: {}
-    labels: {}
+    resources:
+      requests:
+        cpu: 1000m
+        memory: 2048Mi
+      limits:
+        cpu: 2000m
+        memory: 4096Mi
 
     # Override the default K8s scheduler
     # schedulerName: ~
