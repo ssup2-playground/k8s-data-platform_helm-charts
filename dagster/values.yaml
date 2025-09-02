@@ -34,7 +34,7 @@ dagsterWebserver:
     # When a tag is not supplied for a Dagster provided image,
     # it will default as the Helm chart version.
     repository: "ghcr.io/ssup2/dagster-clt-queued-run-coordinator"
-    tag: "commit-f4ad4bf9"
+    tag: "commit-40e17ac6"
     pullPolicy: Always
 
   # Support overriding the name prefix of the webserver pods
@@ -1121,7 +1121,7 @@ dagsterDaemon:
     # When a tag is not supplied for a Dagster provided image,
     # it will default as the Helm chart version.
     repository: "ghcr.io/ssup2/dagster-clt-queued-run-coordinator"
-    tag: "commit-f4ad4bf9"
+    tag: "commit-40e17ac6"
     pullPolicy: Always
 
   heartbeatTolerance: 1800
@@ -1146,7 +1146,7 @@ dagsterDaemon:
           dequeue_num_workers: 4
           tag_concurrency_limits:
             - key: "code_location"
-              value: "dagster_workflows"
+              value: "dagster-workflows"
               limit: 2
 
     ##  Uncomment this configuration if the CustomRunCoordinator is selected.
