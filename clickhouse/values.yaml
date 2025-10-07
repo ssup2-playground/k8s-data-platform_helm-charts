@@ -270,8 +270,8 @@ containerSecurityContext:
 ## @param auth.existingSecretKey Name of the key inside the existing secret
 ##
 auth:
-  username: default
-  password: ""
+  username: admin
+  password: admin
   existingSecret: ""
   existingSecretKey: ""
 ## @param logLevel Logging level

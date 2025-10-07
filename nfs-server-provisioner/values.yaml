@@ -81,6 +81,7 @@ storageClass:
   parameters: {}
 
   mountOptions:
+    - local_lock=all
     - vers=3
     - retrans=2
     - timeo=30
