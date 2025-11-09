@@ -30,6 +30,7 @@ yamlApplicationConfig:
           security.protocol: SASL_PLAINTEXT
           sasl.mechanism: SCRAM-SHA-512
           sasl.jaas.config: "org.apache.kafka.common.security.scram.ScramLoginModule required username=\"user\" password=\"user\";"
+        schemaRegistry: http://schema-registry.kafka:8081
     auth:
       type: disabled
   # kafka:
